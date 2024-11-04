@@ -1,0 +1,102 @@
+{
+  "author": "",
+  "category": "Advanced",
+  "extensionNamespace": "",
+  "fullName": "Oscilate function",
+  "helpPath": "",
+  "iconUrl": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0ibWRpLW1hdGgtaW50ZWdyYWwiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTEuNSAxOS4xQzExLjMgMjAuMiAxMC45IDIxIDEwLjIgMjEuNUM5LjUgMjIgOC42IDIyLjEgNy41IDIxLjlDNy4xIDIxLjggNi4zIDIxLjcgNiAyMS41TDYuNSAyMEM2LjggMjAuMSA3LjQgMjAuMyA3LjcgMjAuM0M4LjggMjAuNSA5LjQgMjAgOS42IDE4LjhMMTIgNS4yQzEyLjIgNCAxMi43IDMuMiAxMy40IDIuNkMxNC4xIDIuMSAxNS4xIDEuOSAxNi4yIDIuMUMxNi42IDIuMiAxNy40IDIuMyAxOCAyLjZMMTcuNSA0QzE3LjMgMy45IDE2LjYgMy44IDE2LjMgMy43QzE1IDMuNSAxNC4zIDQuMSAxNCA1LjZMMTEuNSAxOS4xWiIgLz48L3N2Zz4=",
+  "name": "OscilateValue",
+  "previewIconUrl": "https://asset-resources.gdevelop.io/public-resources/Icons/e50d4b67d0c7502888036380ab82865aeec5b11a8137c36919f96934d5efa871_math-integral.svg",
+  "shortDescription": "Oscilate function",
+  "version": "0.0.1",
+  "description": "Oscilate function",
+  "tags": [
+    "math oscilation"
+  ],
+  "authorIds": [
+    "W0yoMQqOeiULIwY1i1Qd8tprOyD2"
+  ],
+  "dependencies": [],
+  "eventsFunctions": [
+    {
+      "description": "Oscilate values",
+      "fullName": "Oscilate values",
+      "functionType": "Expression",
+      "name": "Oscilate",
+      "sentence": "Oscilate values. Min: _PARAM1_ Max: _PARAM2_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const scene = runtimeScene.getLayer(\"\").getRenderer().getThreeScene();",
+            "const min = eventsFunctionContext.getArgument(\"minValue\");",
+            "const max = eventsFunctionContext.getArgument(\"maxValue\");",
+            "const timeInMs = eventsFunctionContext.getArgument(\"timeInMs\"); ",
+            "const timerName = eventsFunctionContext.getArgument(\"timerName\");",
+            "",
+            "if (!scene.userData.oscilationExtensionTimer) {",
+            "    scene.userData.oscilationExtensionTimer = {};",
+            "};",
+            "",
+            "if (!scene.userData.oscilationExtensionTimer[timerName]) {",
+            "    scene.userData.oscilationExtensionTimer[timerName] = {",
+            "        time: 0,",
+            "        lastUpdateTime: Date.now()",
+            "    };",
+            "};",
+            "",
+            "const timer = scene.userData.oscilationExtensionTimer[timerName];",
+            "const currentTime = Date.now();",
+            "const elapsedTime = currentTime - timer.lastUpdateTime;",
+            "timer.lastUpdateTime = currentTime;",
+            "",
+            "// @input: discrete counter",
+            "// @min: lower value",
+            "// @max: maximum value",
+            "function oscillate(input, min, max) {",
+            "  var range = max - min;",
+            "  return min + Math.abs(((input + range) % (range * 2)) - range);",
+            "};",
+            "",
+            "timer.time += (elapsedTime / timeInMs) * (max - min);",
+            "",
+            "const result = oscillate(timer.time, min, max);",
+            "",
+            "eventsFunctionContext.returnValue = result;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "expressionType": {
+        "type": "expression"
+      },
+      "parameters": [
+        {
+          "description": "minValue",
+          "name": "minValue",
+          "type": "expression"
+        },
+        {
+          "description": "maxValue",
+          "name": "maxValue",
+          "type": "expression"
+        },
+        {
+          "description": "Duration (ms)",
+          "name": "timeInMs",
+          "type": "expression"
+        },
+        {
+          "description": "Timer name",
+          "name": "timerName",
+          "type": "string"
+        }
+      ],
+      "objectGroups": []
+    }
+  ],
+  "eventsBasedBehaviors": [],
+  "eventsBasedObjects": []
+}
